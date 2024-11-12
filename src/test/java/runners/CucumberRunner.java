@@ -1,11 +1,15 @@
 package runners;
 
-import io.cucumber.junit.platform.engine.Cucumber;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import io.cucumber.testng.CucumberOptions;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import org.springframework.test.context.ContextConfiguration;
+import configuration.CucumberSpringConfig;
 
-@ExtendWith(SpringExtension.class)  // Spring entegrasyonunu sağlıyoruz
-@Cucumber // JUnit 5 ile uyumlu Cucumber'ı kullanıyoruz
-public class CucumberRunner {
-    // Bu sınıf sadece Cucumber'ı çalıştırmak için gerekli konfigürasyonu içerir
+@ContextConfiguration(classes = CucumberSpringConfig.class)  // Spring context'ini yüklüyoruz
+@CucumberOptions(
+        features = "src/test/java/features",  // Feature dosyasının yolu
+        glue = {"stepdefinitions", "configuration"},    // Step Definitions ve Configuration paketleri
+        plugin = {"pretty", "html:target/cucumber-reports"}  // Çıktı formatları
+)
+public class CucumberRunner extends AbstractTestNGCucumberTests {
 }

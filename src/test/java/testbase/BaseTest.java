@@ -1,51 +1,51 @@
 package testbase;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.EnabledIf;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-import java.io.IOException;
 import java.util.Map;
 
-@SpringBootTest(classes = {BaseTest.class})  // Spring Boot test konfigürasyonu
-@ContextConfiguration(classes = BaseTest.class) // Spring context'ini tanımlıyoruz
+@Configuration
+@ComponentScan(basePackages = "testbase")  // testbase paketindeki tüm sınıfları tarar ve bean'leri bulur
 public class BaseTest {
 
     @Autowired
-    public static WebDriver driver;  // Spring tarafından enjekte edilecek WebDriver
+    protected static HepsiburadaWeb hepsiburadaWeb;  // HepsiburadaWeb Bean
 
     @Autowired
-    protected static HepsiburadaWeb hepsiburadaWeb;  // HepsiburadaWeb sınıfı da Spring tarafından enjekte edilecek
+    protected JSONReader jsonReader;  // JSONReader Bean
 
     @Autowired
-    protected static JSONReader jsonReader;  // JSONReader sınıfının Spring tarafından yönetilmesini sağlıyoruz
+    public static WebDriver driver;  // WebDriver Spring tarafından yönetilen bir Bean
 
     @Autowired
-    public static Map<String, Locator> locators;  // Locator'lar da Spring tarafından yönetilecek
+    public static Map<String, Locator> locators;  // Locator Bean'leri
 
-    // Setup işlemi Spring'in lifecycle yönetimi ile yapılacak
-    @BeforeAll
-    public static void setUp() throws IOException {
-        // WebDriverManager'ı manuel olarak başlatıyoruz çünkü @BeforeAll metodu static'tir
-        System.out.println("ChromeDriver ayağa kaldırılıyor...");
-
-        // WebDriverManager kullanarak ChromeDriver'ı dinamik olarak ayarlayın
-        WebDriverManager.chromedriver().setup();  // WebDriverManager doğru sürümü indirip ayarlayacak.
-
-        // ChromeDriver'ı başlat
-        driver = new ChromeDriver();
-        System.out.println("ChromeDriver ayağa kaldırıldı.");
+    // WebDriver bean'ini Spring tarafından yönetilen bir şekilde tanımlıyoruz
+    @Bean
+    public WebDriver webDriver() {
+        WebDriverManager.chromedriver().setup();  // ChromeDriver'ı dinamik olarak yükle
+        return new ChromeDriver();
     }
 
-    @AfterAll
-    public static void tearDown() {
-        driver.quit();
-        System.out.println("Driver kapatıldı.");
+    // Setup işlemi
+    @BeforeClass
+    public void setUp() throws Exception {
+        // Spring tarafından sağlanan WebDriver bean'ini kullanabiliriz.
+    }
+
+    // Tear down işlemi
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

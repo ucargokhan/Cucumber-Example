@@ -1,8 +1,11 @@
 testbase/HepsiburadaWebTest.class
-runners/CucumberRunner.class
 testbase/JSONReader.class
 testbase/HepsiburadaWeb.class
 testbase/BaseTest.class
+testbase/WebDriverConfig.class
 testbase/Locator.class
+runners/CucumberRunner.class
+configuration/WebDriverConfig.class
 stepdefinitions/LoginSteps.class
 testbase/JSONReader$1.class
+configuration/CucumberSpringConfig.class

@@ -1,5 +1,8 @@
 package testbase;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Locator {
     private String locator;  // testbase.Locator türü (örn. "css", "id" vb.)
     private String value;    // testbase.Locator değeri (örn. "span[data-test-id='account']")

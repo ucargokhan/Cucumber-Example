@@ -3,6 +3,7 @@ package testbase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -12,36 +13,37 @@ import java.util.concurrent.TimeUnit;
 public class HepsiburadaWeb {
 
     private final WebDriver driver;  // WebDriver aynı şekilde kalmalı
-    private final Map<String, Locator> locators;  // 'final' kaldırıldı
+    private final Map<String, Locator> locators;  // Locator'lar Map olarak alınacak
 
     // Constructor Injection ile WebDriver ve Locator'ları alıyoruz
+    @Autowired
     public HepsiburadaWeb(WebDriver driver, Map<String, Locator> locators) {
         this.driver = driver;
-        this.locators = locators;  // Artık locators final değil, dolayısıyla atama yapılabilir
+        this.locators = locators;
     }
 
     // testbase.Locator'ı almak için metod
     public By getLocator(String key) {
         Locator locator = locators.get(key);  // JSON'dan alınan locator
         if (locator != null) {
-            switch (locator.getLocator().toLowerCase()) {  // testbase.Locator türünü kontrol et
+            switch (locator.getLocator().toLowerCase()) {
                 case "xpath":
-                    return By.xpath(locator.getValue());  // Xpath kullanılarak element bulunur
+                    return By.xpath(locator.getValue());
                 case "id":
-                    return By.id(locator.getValue());  // ID kullanılarak element bulunur
+                    return By.id(locator.getValue());
                 case "name":
-                    return By.name(locator.getValue());  // Name kullanılarak element bulunur
+                    return By.name(locator.getValue());
                 case "css":
-                    return By.cssSelector(locator.getValue());  // CSS Selector kullanılarak element bulunur
+                    return By.cssSelector(locator.getValue());
                 case "linktext":
-                    return By.linkText(locator.getValue());  // LinkText kullanılarak element bulunur
+                    return By.linkText(locator.getValue());
                 case "partiallinktext":
-                    return By.partialLinkText(locator.getValue());  // PartialLinkText kullanılarak element bulunur
+                    return By.partialLinkText(locator.getValue());
                 default:
                     throw new IllegalArgumentException("Locator type not supported: " + locator.getLocator());
             }
         }
-        return null;  // Eğer locator bulunamazsa null döndürür
+        return null;
     }
 
     // Elemente tıklama
@@ -61,6 +63,4 @@ public class HepsiburadaWeb {
     public void waitSeconds(long seconds) throws InterruptedException {
         TimeUnit.SECONDS.sleep(seconds);
     }
-
-    // Diğer metotlar aynı şekilde devam eder
 }

@@ -3,6 +3,9 @@ package testbase;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.test.context.ContextConfiguration;
+
+@ContextConfiguration(classes = {BaseTest.class, WebDriverConfig.class})  // Spring konfigürasyonlarını yüklüyoruz
 
 public class HepsiburadaWebTest extends BaseTest {
 
