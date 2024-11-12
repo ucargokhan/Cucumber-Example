@@ -1,0 +1,8 @@
+testbase/HepsiburadaWebTest.class
+runners/CucumberRunner.class
+testbase/JSONReader.class
+testbase/HepsiburadaWeb.class
+testbase/BaseTest.class
+testbase/Locator.class
+stepdefinitions/LoginSteps.class
+testbase/JSONReader$1.class

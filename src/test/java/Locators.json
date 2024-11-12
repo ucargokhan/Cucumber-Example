@@ -1,0 +1,14 @@
+{
+  "girisYapAlani": {
+    "locator": "css",
+    "value": "a[title='Kampanyalar']"
+  },
+  "girisYapButonu": {
+    "locator": "id",
+    "value": "login"
+  },
+  "emailAlani": {
+    "locator": "id",
+    "value": "txtUserName"
+  }
+}
